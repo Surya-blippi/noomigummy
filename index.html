@@ -185,17 +185,18 @@
   h1.head{
     margin: 0 0 32px;
     font-family: var(--display);
-    font-weight: 600;
-    font-size: clamp(50px, 8vw, 120px);
+    font-weight: 400;
+    font-size: clamp(54px, 8.6vw, 128px);
     line-height: .98;
-    letter-spacing: -.035em;
+    letter-spacing: -.045em;
     color: var(--ink);
     text-shadow: 0 2px 40px rgba(8,2,28,.45);
   }
   h1.head em{
-    font-style: italic;
-    color: #ffc093;            /* soft peach — readable on dark purple AND orange gummy */
-    font-weight: 500;
+    font-style: normal;              /* drop italic — weight does the work */
+    color: #ffc093;
+    font-weight: 800;                /* extrabold for dramatic contrast */
+    letter-spacing: -.055em;         /* tighter on the heavy word */
   }
   .lede{
     max-width: 38ch;
@@ -299,11 +300,11 @@
   }
   .product .head-row .ed{
     font-family: var(--display);
-    font-style: italic;
-    font-weight: 400;
-    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
     color: var(--ink);
-    letter-spacing: -.01em;
+    letter-spacing: -.025em;
   }
   .product-frame{
     position: relative;
@@ -326,15 +327,20 @@
   }
   .product-caption .line{
     font-family: var(--display);
-    font-style: italic;
+    font-style: normal;
     font-weight: 400;
     font-size: clamp(26px, 3.2vw, 40px);
     color: var(--ink);
     line-height: 1.18;
-    letter-spacing: -.01em;
+    letter-spacing: -.025em;
     display: block;
   }
-  .product-caption .line em{ color: var(--accent); font-style: italic }
+  .product-caption .line em{
+    color: var(--accent);
+    font-style: normal;
+    font-weight: 800;
+    letter-spacing: -.035em;
+  }
   .product-caption .spec{
     display: block;
     margin-top: 18px;
