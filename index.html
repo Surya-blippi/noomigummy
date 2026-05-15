@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Noomi — Plant Protein Gummies</title>
+<meta name="description" content="Ten grams of plant-based protein. One wild Nordic berry. Nothing in between." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#180848;
+    --bg-deep:#0c0330;
+    --plum:#3a1c8e;
+    --plum-2:#5524c4;
+    --ink:#f5ecdb;
+    --ink-soft:rgba(245,236,219,.62);
+    --accent:#ff5a1f;
+    --line:rgba(245,236,219,.14);
+
+    --display:"Instrument Serif", ui-serif, Georgia, serif;
+    --sans:"Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-variation-settings:"opsz" 14,"wght" 380,"wdth" 100;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+  img,video{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+  /* atmospheric blobs + grain */
+  body::before{
+    content:"";
+    position:fixed;inset:-20%;
+    z-index:0; pointer-events:none;
+    background:
+      radial-gradient(40% 32% at 18% 18%, rgba(85,36,196,.55), transparent 65%),
+      radial-gradient(38% 30% at 84% 12%, rgba(255,90,31,.10), transparent 60%),
+      radial-gradient(48% 38% at 80% 92%, rgba(58,28,142,.55), transparent 65%);
+    filter: blur(40px);
+  }
+  body::after{
+    content:"";
+    position:fixed;inset:0;
+    z-index:1; pointer-events:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.92  0 0 0 0 0.85  0 0 0 0.08 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.5; mix-blend-mode:overlay;
+  }
+
+  .container{
+    width:100%;
+    max-width:1280px;
+    margin:0 auto;
+    padding:0 36px;
+    position:relative;
+    z-index:2;
+  }
+
+  .label{
+    font-family:var(--sans);
+    font-variation-settings:"opsz" 12,"wght" 500,"wdth" 90;
+    text-transform:uppercase;
+    letter-spacing:.24em;
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- NAV ---------- */
+  nav.top{
+    padding: 30px 0;
+  }
+  .top-inner{
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .brand{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--sans);
+    font-variation-settings:"opsz" 24,"wght" 620,"wdth" 100;
+    font-size:24px; letter-spacing:-.035em;
+    color:var(--ink);
+  }
+  .brand .mark{
+    width:14px; height:18px;
+    background:var(--accent);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+    transform: translateY(-4px);
+  }
+  .top a.right{
+    font-size:13px; color:var(--ink-soft);
+    transition: color .25s ease;
+  }
+  .top a.right:hover{ color:var(--ink) }
+  .top a.right span{
+    display:inline-block;
+    width:6px;height:6px;border-radius:50%;
+    background:var(--accent);
+    margin-right:8px; transform:translateY(-1px);
+  }
+
+  /* ---------- NAV OVER HERO ---------- */
+  nav.top{ position: absolute; top:0; left:0; right:0; z-index:5; }
+
+  /* ---------- HERO (cinematic video bg) ---------- */
+  .hero{
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    display:flex; align-items:flex-end;
+    padding: 160px 0 70px;
+    isolation: isolate;
+  }
+  .hero .bg-video{
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 78% 30%;          /* push subject to the right & up */
+    z-index: 0;
+    filter: saturate(.85) brightness(.68) contrast(1.05);
+  }
+  .hero .bg-overlay{
+    position: absolute; inset: 0;
+    z-index: 1;
+    background:
+      /* left-to-right shroud — guarantees a clean dark canvas for typography */
+      linear-gradient(95deg,
+        rgba(8,2,28,.95)  0%,
+        rgba(14,5,42,.86) 22%,
+        rgba(18,6,58,.62) 45%,
+        rgba(24,8,72,.30) 68%,
+        rgba(24,8,72,.08) 100%
+      ),
+      /* bottom-weighted darkening for the attribute strip */
+      linear-gradient(180deg,
+        rgba(12,3,48,.35) 0%,
+        transparent 28%,
+        transparent 65%,
+        rgba(8,2,28,.85) 100%
+      ),
+      /* corner vignette */
+      radial-gradient(140% 90% at 50% 35%, transparent 35%, rgba(8,2,28,.55) 100%);
+  }
+  .hero .bg-tint{
+    position:absolute; inset:0; z-index:1;
+    background: rgba(58,28,142,.28);
+    mix-blend-mode: color;
+    pointer-events:none;
+  }
+
+  /* scoped readability boosts ONLY inside hero (don't affect lower sections) */
+  .hero .label{ color: rgba(245,236,219,.82) }
+  .hero .lede{ color: rgba(245,236,219,.86); text-shadow: 0 1px 24px rgba(8,2,28,.55) }
+  .hero .attrs .a .k{ color: rgba(245,236,219,.78) }
+  .hero .eyebrow::before{ height: 2px; background: #ffc093 }
+
+  /* nav over hero — bump for readability */
+  nav.top a.right{ color: rgba(245,236,219,.88) }
+  .hero .container{ z-index: 2 }
+
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 60px;
+    width:100%;
+  }
+  @media (max-width: 900px){
+    .hero{ padding: 130px 0 60px }
+  }
+
+  .eyebrow{
+    margin-bottom: 36px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .eyebrow::before{
+    content:""; display:block;
+    width:34px; height:1px;
+    background: var(--accent);
+  }
+
+  h1.head{
+    margin: 0 0 32px;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(54px, 8.4vw, 128px);
+    line-height: .94;
+    letter-spacing: -.025em;
+    color: var(--ink);
+    text-shadow: 0 2px 40px rgba(8,2,28,.45);
+  }
+  h1.head em{
+    font-style: italic;
+    color: #ffc093;            /* soft peach — readable on dark purple AND orange gummy */
+    font-weight: 400;
+  }
+  .lede{
+    max-width: 38ch;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: 0 0 48px;
+  }
+
+  /* attribute line — three quiet labels */
+  .attrs{
+    display:flex; gap: 28px; flex-wrap:wrap;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .attrs .a{
+    display:flex; align-items:baseline; gap: 10px;
+  }
+  .attrs .a .n{
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: -.01em;
+  }
+  .attrs .a .k{
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- VIDEO STAGE ---------- */
+  .stage{
+    position: relative;
+    aspect-ratio: 752 / 560;
+    max-width: 620px;
+    margin-left: auto;
+    width: 100%;
+  }
+  .stage .halo{
+    position:absolute;
+    inset: -12% -8% -8% -8%;
+    background:
+      radial-gradient(60% 50% at 50% 50%, rgba(255,90,31,.28), transparent 70%);
+    filter: blur(40px);
+    z-index: 0;
+    pointer-events:none;
+  }
+  .stage video{
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 24px;
+    box-shadow:
+      0 30px 80px -20px rgba(0,0,0,.55),
+      0 0 0 1px rgba(245,236,219,.08) inset;
+  }
+  .stage .corner{
+    position:absolute;
+    z-index:2;
+    font-family:var(--display); font-style:italic;
+    font-size: 14px;
+    color: var(--ink);
+    background: rgba(12,3,48,.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(245,236,219,.14);
+  }
+  .stage .corner.tl{ top:18px; left:18px }
+  .stage .corner.br{
+    bottom:18px; right:18px;
+    font-family: var(--sans);
+    font-style:normal;
+    font-variation-settings:"opsz" 12,"wght" 500,"wdth" 95;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- PRODUCT SHOWCASE ---------- */
+  .product{
+    padding: 140px 0 60px;
+    position: relative;
+  }
+  @media (max-width: 760px){ .product{ padding: 90px 0 40px } }
+  .product .head-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 48px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+  }
+  .product .head-row .ed{
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--ink);
+    letter-spacing: -.01em;
+  }
+  .product-frame{
+    position: relative;
+    margin: 0 auto;
+    max-width: 1080px;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+      0 0 90px -10px rgba(255,90,31,.20),
+      0 70px 140px -40px rgba(0,0,0,.65),
+      0 0 0 1px rgba(245,236,219,.06) inset;
+  }
+  .product-frame img{
+    width: 100%; height: auto; display: block;
+  }
+  .product-caption{
+    margin: 56px auto 0;
+    text-align: center;
+    max-width: 32ch;
+  }
+  .product-caption .line{
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(26px, 3.2vw, 40px);
+    color: var(--ink);
+    line-height: 1.18;
+    letter-spacing: -.01em;
+    display: block;
+  }
+  .product-caption .line em{ color: var(--accent); font-style: italic }
+  .product-caption .spec{
+    display: block;
+    margin-top: 18px;
+    font-size: 11px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- MANIFESTO ---------- */
+  .manifesto{
+    padding: 120px 0 80px;
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 760px){ .manifesto{padding: 80px 0 60px} }
+  .manifesto p{
+    margin: 0 auto;
+    max-width: 22ch;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(34px, 4.6vw, 60px);
+    line-height: 1.15;
+    letter-spacing: -.015em;
+    color: var(--ink);
+  }
+  .manifesto p em{ font-style: italic; color: var(--accent); font-weight:400 }
+  .manifesto .sub{
+    margin-top: 32px;
+    color: var(--ink-soft);
+    font-family: var(--sans);
+    font-size: 14px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- WAITLIST ---------- */
+  .waitlist{
+    padding: 60px 0 120px;
+    text-align: center;
+  }
+  .waitlist form{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    background: rgba(245,236,219,.04);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px;
+    width: 100%;
+    max-width: 460px;
+  }
+  .waitlist input{
+    flex: 1;
+    background: transparent;
+    border: 0; outline: 0;
+    color: var(--ink);
+    font: inherit;
+    font-size: 15px;
+    padding: 12px 18px;
+  }
+  .waitlist input::placeholder{ color: var(--ink-soft) }
+  .waitlist button{
+    background: var(--accent);
+    color: var(--bg-deep);
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-variation-settings:"opsz" 14,"wght" 580,"wdth" 100;
+    font-size: 13.5px;
+    letter-spacing: .02em;
+    transition: transform .25s ease, background .25s ease;
+  }
+  .waitlist button:hover{ transform: translateY(-1px); background: #ff6a30 }
+  .waitlist .hint{
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: .04em;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding: 32px 0 40px;
+    border-top: 1px solid var(--line);
+  }
+  .foot-row{
+    display:flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap;
+  }
+  .foot-row .small{
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: .04em;
+  }
+  .foot-links{ display:flex; gap: 22px }
+  .foot-links a{
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    transition: color .25s ease;
+  }
+  .foot-links a:hover{ color: var(--ink) }
+
+  /* ---------- REVEALS ---------- */
+  .reveal{ opacity:0; transform: translateY(14px); transition: opacity .9s ease, transform .9s ease }
+  .reveal.in{ opacity:1; transform: translateY(0) }
+  .reveal.d1{ transition-delay:.08s }
+  .reveal.d2{ transition-delay:.16s }
+  .reveal.d3{ transition-delay:.24s }
+  .reveal.d4{ transition-delay:.32s }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none }
+    .stage video{ animation: none }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="container top-inner">
+    <a href="#" class="brand">
+      <span class="mark"></span>
+      noomi
+    </a>
+    <a href="#waitlist" class="right">
+      <span></span>Coming 2026
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <video class="bg-video" src="Gummyvideo.mp4" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+  <div class="bg-tint" aria-hidden="true"></div>
+  <div class="bg-overlay" aria-hidden="true"></div>
+
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow reveal in">
+        <span class="label">Plant Protein · Sea Buckthorn</span>
+      </div>
+
+      <h1 class="head reveal in d1">
+        Plant protein,<br/>
+        made <em>bright.</em>
+      </h1>
+
+      <p class="lede reveal in d2">
+        Ten grams of plant-based protein. One wild Nordic berry.
+        Nothing in between.
+      </p>
+
+      <div class="attrs reveal in d3">
+        <div class="a"><span class="n">10g</span><span class="k">Protein</span></div>
+        <div class="a"><span class="n">0g</span><span class="k">Gelatin</span></div>
+        <div class="a"><span class="n">100%</span><span class="k">Plant</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT SHOWCASE -->
+<section class="product">
+  <div class="container">
+    <div class="head-row reveal">
+      <span class="label">The Product · Edition 01</span>
+      <span class="ed">Sea Buckthorn · 57g</span>
+    </div>
+    <figure class="product-frame reveal d1">
+      <img src="gummyimage.jpeg" alt="Noomi Sea Buckthorn Protein Gummies — front and back of the jar" />
+    </figure>
+    <p class="product-caption reveal d2">
+      <span class="line">Plant-based nutrition <em>that thrives.</em></span>
+      <span class="spec">Front &amp; back · 30 gummies · naturally flavored</span>
+    </p>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="container">
+    <p class="reveal">
+      Fuelled by <em>nature.</em><br/>
+      Powered by <em>plants.</em>
+    </p>
+    <div class="sub reveal d1">A new ritual, in the making</div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="waitlist" id="waitlist">
+  <div class="container">
+    <form class="reveal" onsubmit="event.preventDefault(); const b=this.querySelector('button'); b.innerText='You\'re on the list ·'; b.style.background='transparent'; b.style.color='var(--accent)'; b.style.border='1px solid var(--accent)';">
+      <input type="email" placeholder="your@email.com" required autocomplete="email" />
+      <button type="submit">Join the list →</button>
+    </form>
+    <div class="hint reveal d1">Be the first to taste it. No noise — just one note when we launch.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot-row">
+    <div class="small">© 2026 Noomi · Wild-harvested in Finland, made in California</div>
+    <div class="foot-links">
+      <a href="mailto:hello@noomi.co">Contact</a>
+      <a href="#">Instagram</a>
+      <a href="#">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
